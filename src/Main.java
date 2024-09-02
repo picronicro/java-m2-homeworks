@@ -1,38 +1,26 @@
-import java.util.UUID;
-
 public class Main {
 
     public static void main(String[] args) {
-        Mouse mouse = new Mouse(
-                "Mouse",
-                12,
-                new Properties(UUID.randomUUID().toString(), "Generic mouse manufacturer"),
-                PortEnum.COM1
-        );
-        Roccat roccatKone = new Roccat(
-                "Roccat Kone Aimo Remastered",
-                18,
-                new Properties(UUID.randomUUID().toString(), "Roccat GmbH"),
-                PortEnum.COM2
-        );
-        Roccat roccatBurst = new Roccat(
-                "Roccat Burst Pro",
-                5,
-                new Properties(UUID.randomUUID().toString(), "Roccat GmbH"),
-                PortEnum.COM3
-        );
+        Keyboard[] boards = {
+                createObject("FlEsports"),
+                createObject("Hexgears"),
+                createObject("HyperX")
+        };
 
-        mouse.printProps();
-        roccatKone.printProps();
-        roccatBurst.printProps();
+        for (Keyboard board : boards) {
+            board.print();
+        }
+    }
 
-        System.out.println(roccatKone.input("LMB"));
-        System.out.println(roccatKone.input(256.2));
-        System.out.println(roccatKone.input(1200));
+    public static Keyboard createObject(String className) {
+        Keyboard keyboard = null;
+        switch(className) {
+            case "FlEsports" -> keyboard = new FlEsports("FL680", 68, "Plate Mount");
+            case "Hexgears" -> keyboard = new Hexgears("GK707", 87, 60);
+            case "HyperX" -> keyboard = new HyperX("Alloy Elite RGB", 104, "poor");
+        }
 
-        System.out.println(roccatKone.input("RMB"));
-        System.out.println(roccatKone.input(100.7));
-        System.out.println(roccatKone.input(700));
+        return keyboard;
     }
 
 }
