@@ -1,26 +1,24 @@
 public class Main {
 
     public static void main(String[] args) {
-        Keyboard[] boards = {
-                createObject("FlEsports"),
-                createObject("Hexgears"),
-                createObject("HyperX")
-        };
+        BankAccount account = new BankAccount();
+        account.deposit(15000);
 
-        for (Keyboard board : boards) {
-            board.print();
+        while (true) {
+            try {
+                account.withdraw(6000);
+                System.out.println("Withdrawn 6000KGS. Funds left: " + account.getAmount() + "KGS");
+            } catch (LimitException e) {
+                System.out.println(e.getMessage());
+                try {
+                    account.withdraw(e.getRemainingAmount());
+                    System.out.println("Withdrawn remaining amount: " + e.getRemainingAmount() + "KGS");
+                } catch (LimitException ex) {
+                    throw new RuntimeException(ex);
+                }
+                break;
+            }
         }
-    }
-
-    public static Keyboard createObject(String className) {
-        Keyboard keyboard = null;
-        switch(className) {
-            case "FlEsports" -> keyboard = new FlEsports("FL680", 68, "Plate Mount");
-            case "Hexgears" -> keyboard = new Hexgears("GK707", 87, 60);
-            case "HyperX" -> keyboard = new HyperX("Alloy Elite RGB", 104, "poor");
-        }
-
-        return keyboard;
     }
 
 }
